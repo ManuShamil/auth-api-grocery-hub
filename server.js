@@ -7,6 +7,6 @@ mongoose.connect(DB_URI,{'useCreateIndex': true})
 const PORT = process.env.DEV_PORT || process.env.PORT || 3000 //change port accordingly
 
 app.listen(PORT, () => {
-    console.log(`Template-API running on PORT: ${PORT}`)
+    console.log(`Auth-API running on PORT: ${PORT}`)
     console.log("-------------------------------")
 })

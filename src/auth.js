@@ -1,9 +1,5 @@
-const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-const fs = require('fs')
-
-const authKey = fs.readFileSync('./keys/auth', 'utf8')
-const refreshKey = fs.readFileSync('./keys/refresh', 'utf8')
+const { createRefreshToken, createAccessToken } = require('./tokens')
 
 const User = require('./models/user_model')
 
@@ -15,34 +11,15 @@ const checkPassword = async function(password, hash, callback) {
 
 }
 
-const createToken = function(payload) {
-
-    const signOptions = {
-        issuer:  "groceryhub",
-        subject:  "login",
-        audience:  "user",
-        expiresIn:  "15m",
-        algorithm:  "RS256"
-    }
-    
-
-    return jwt.sign(payload, authKey, signOptions)
-}
-
-const createRefreshToken = function(payload) {
-
-    const signOptions = {
-        issuer:  "groceryhub",
-        subject:  "login",
-        audience:  "user",
-        expiresIn:  "7d",
-        algorithm:  "RS256"
-    }
-
-    return jwt.sign(payload, refreshKey, signOptions)
-}
-
 const authLogin = async function(request, response, next) {
+
+    if (!request.body.query || !request.body.password){
+        response.status(406).json({
+            msg: "Invalid Parameters"
+        })
+        response.end()
+        return;
+    }
 
     const query = request.body.query
     const password = request.body.password
@@ -58,7 +35,6 @@ const authLogin = async function(request, response, next) {
             /*
             *   No User found, send 406 Not Acceptable(User not in database)
             */
-
             response.status(406).json({
                 msg: "Username or Email is incorrect"
             })
@@ -71,12 +47,12 @@ const authLogin = async function(request, response, next) {
             /*
             *   Found user, compare password with the hash
             */
-            
-
-
             checkPassword(password, res.userPassword,(result) => {
 
                 if (!result) {
+                    /*
+                    *  Password Incorrect, send 403 - Forbidden
+                    */
                     response.status(403).json({
                         msg: "Wrong Password"
                     })
@@ -89,16 +65,16 @@ const authLogin = async function(request, response, next) {
                 */
 
                 const payload = {
-                    userID: res.userID,
-                    userName: res.userName,
-                    userEmail: res.userEmail
+                    user: {
+                        userID: res.userID,
+                        userName: res.userName,
+                        userEmail: res.userEmail
+                    }
                 }
                 
                 response.json({
-                    token: createToken(payload),
-                    refresh: createRefreshToken({
-                        userID: payload.userID
-                    })
+                    token: createAccessToken(payload),
+                    refresh: createRefreshToken(payload)
                 })
                 response.end()
                 return;

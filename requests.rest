@@ -5,3 +5,13 @@ Content-Type: application/json
     "query": "user1@freshfoods.com",
     "password": "123" 
 }
+
+###
+
+POST http://localhost:3500/auth/refresh
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJRCI6MSwidXNlck5hbWUiOiJ1c2VyMSIsInVzZXJFbWFpbCI6InVzZXIxQGZyZXNoZm9vZHMuY29tIn0sImlhdCI6MTU4NjY0MDc2NiwiZXhwIjoxNTg2NjQxNjY2LCJhdWQiOiJ1c2VyIiwiaXNzIjoiZ3JvY2VyeWh1YiIsInN1YiI6ImF1dGgifQ.lqQcydEoepA-DBIjIYwDgSk-Vf1jF-Zu27mneOvAhtHDr5nPXuzPZfs-2s73jH3k6A5xnL8gUTkNm5gJPf3h6HO1oQigrxV4CoLYPVKSTCjqEZRcg3tGp2uK5WjQKOyw7lzW1C6lH9O-BLa-prBQAJYA3EZr-ma-UEdipsKDCxo",
+    "refreshToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJRCI6MSwidXNlck5hbWUiOiJ1c2VyMSIsInVzZXJFbWFpbCI6InVzZXIxQGZyZXNoZm9vZHMuY29tIn0sImlhdCI6MTU4NjY0MDc2NiwiZXhwIjoxNTg3MjQ1NTY2LCJhdWQiOiJ1c2VyIiwiaXNzIjoiZ3JvY2VyeWh1YiIsInN1YiI6ImF1dGgifQ.ljhnpi0_LBG7wc54kyzi9Nis-lEx2rCiEaBzCPCnGx_g95VLYQNNZEx4-SLE3CEk7zYMFSk5n4ji1MVyqxQ4xljTuaz7dnKDIeloqUjeCdzBRNihl2lDrBWxGZxUfvEK-loke4-a6NO2Lmk2fsDVPXFCpG6GJlAGsJNiuzLOdBg"
+}
